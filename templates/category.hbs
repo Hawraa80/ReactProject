@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Category</title>
+  <style>
+        body {
+            background-color: rgb(135, 197, 222);
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .required-star {
+            color: red;
+            margin-left: 5px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+    </style>
+</head>
+
+<body>
+  <h1>Add Category</h1>
+
+   <form action="/category" method="post" class="App" >
+        <div class="input-wrapper">
+            <input placeholder="Name" name="name" type="text" id="nameInput" required>
+            <span class="required-star">*</span>
+        </div>
+        <input class="sub" type="submit" value="Add">
+        <a href="/" class="back">Back</a>
+    </form>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add user</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: rgb(135, 197, 222);
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        input,
+        select {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .required-star {
+            color: red;
+            margin-left: 5px;
+        }
+
+        .notification {
+            margin-left: 5px;
+            color: red;
+            display: none;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .sub {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .sub:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>Add User</h1>
+
+    <form action="/Index" method="post" class="App" onsubmit="return validateForm()">
+        <div class="input-wrapper">
+            <input placeholder="Name" name="name" type="text" id="nameInput" required>
+            <span class="required-star">*</span>
+        </div>
+        <span class="notification" id="nameNotification">Name is empty</span>
+        <br>
+        <div class="input-wrapper">
+            <input placeholder="Description" name="description" type="text" id="descriptionInput" required>
+            <span class="required-star">*</span>
+        </div>
+        <span class="notification" id="descriptionNotification">Description is empty</span>
+        <br>
+        <div class="input-wrapper">
+            <input placeholder="Mobile Number" name="mobilenumber" type="text" id="mobileNumberInput">
+            <i class="fas fa-check check-icon" onclick="checkNumber()"></i>
+        </div>
+        <span class="notification" id="mobileNumberNotification">Mobile number is Invalid</span>
+         <br>
+        <div class="input-wrapper">
+  <select name="category" id="categorySelect">
+    <option value="">Select category</option>
+    {{#each categories}}
+      <option value="{{this._id}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+</div>
+        <br>
+        <input class="sub" type="submit" value="Add">
+    </form>
+       
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+
+
+
+        function validateForm() {
+            var nameInput = document.getElementById('nameInput');
+            var descriptionInput = document.getElementById('descriptionInput');
+            var nameNotification = document.getElementById('nameNotification');
+            var descriptionNotification = document.getElementById('descriptionNotification');
+            var mobileNumberInput = document.getElementById('mobileNumberInput');
+            var mobileNumberNotification = document.getElementById('mobileNumberNotification');
+
+            const regex = /^(\+|\d{1,3})?\s?(\d{1,4})?\s?\(?\d{1,4}\)?\s?\d{1,4}\s?\d{1,9}$/;
+
+            if (mobileNumberInput.value != "" && !regex.test(mobileNumberInput.value)) {
+                mobileNumberNotification.style.display = 'inline';
+                return false;
+            } else {
+                mobileNumberNotification.style.display = 'none';
+            }
+
+            if (nameInput.value === '') {
+                nameNotification.style.display = 'inline';
+                return false;
+            } else {
+                nameNotification.style.display = 'none';
+            }
+
+            if (descriptionInput.value === '') {
+                descriptionNotification.style.display = 'inline';
+                return false;
+            } else {
+                descriptionNotification.style.display = 'none';
+            }
+
+            return true;
+        }
+
+        async function checkNumber() {
+            const regex = /^(\+|\d{1,3})?\s?(\d{1,4})?\s?\(?\d{1,4}\)?\s?\d{1,4}\s?\d{1,9}$/;
+            var mobileNumberInput = document.getElementById('mobileNumberInput');
+
+            if (regex.test(mobileNumberInput.value)) {
+                try {
+                    const response = await axios.get(
+                        `http://apilayer.net/api/validate?access_key=bc4e57c890995b21e4b343e33abd7804&number=${encodeURIComponent(
+                            mobileNumberInput.value
+                        )}`
+                    );
+
+                    const { country_code, country_name, carrier } = response.data;
+
+                    if (response.data.valid) {
+                        alert(
+                            `Country Code: ${country_code}\nCountry Name: ${country_name}\nOperator Name: ${carrier}`
+                        );
+                    } else {
+                        alert('Mobile number is without a prefix!');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Error occurred while fetching data.');
+                }
+            } else {
+                alert('Invalid mobile number');
+            }
+        }
+
+    </script>
+</body>
+
+</html>
