@@ -9,14 +9,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            background-color: rgb(135, 197, 222);
+            background-color: lightsteelblue;
         }
 
         .input-wrapper {
             display: flex;
             align-items: center;
-        }
 
+        }
+  .input-wrapper_select {
+
+                        margin-left: -17px;
+
+        }
         input,
         select {
             margin-bottom: 10px;
@@ -50,15 +55,16 @@
 
         .sub {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: rgb(232, 89, 89);
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            width: 100px;
         }
 
         .sub:hover {
-            background-color: #45a049;
+            background-color: rgb(115, 128, 145);
         }
     </style>
     <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
@@ -86,7 +92,7 @@
         </div>
         <span class="notification" id="mobileNumberNotification">Mobile number is Invalid</span>
          <br>
-        <div class="input-wrapper">
+        <div class="input-wrapper_select">
   <select name="category" id="categorySelect">
     <option value="">Select category</option>
     {{#each categories}}
