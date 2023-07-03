@@ -18,7 +18,7 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
-      background-color: rgb(124, 163, 236);
+      background-color: rgb(152, 181, 233);
       /* Add background color to the container */
       border: 1px solid #ddd;
       /* Add border to the container */
@@ -117,36 +117,46 @@
     }
 
     /* Popup Styles */
-    .popup-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      display: none;
-    }
+/* Popup Styles */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  display: none;
+}
 
-    .popup-content {
-      background-color: lightsteelblue;
-      padding: 20px;
-      max-width: 500px;
-      border-radius: 5px;
-    }
+.popup-content {
+  background-color: lightsteelblue;
+  padding: 20px;
+  max-width: 500px;
+  border-radius: 5px;
+  position: relative; /* Add position relative */
+}
 
-    .close-btn {
+.close-btn {
+  text-align: right;
+  position: absolute;
+  top: 10px; /* Adjust top position */
+  right: 10px; /* Adjust right position */
+}
 
-      text-align: right;
-    }
+.close {
+  background-color: #757575;
+}
 
-    .close {
-      background-color: #ca7081;
+.edit-form {
+  margin-top: 40px; /* Adjust top margin */
+}
 
-    }
 
     /* Edit Form Styles */
     .edit-form label {
@@ -213,6 +223,9 @@
         <input type="text" id="edit-description" name="edit-description" required><br><br>
         <label for="edit-mobilenumber">Mobile Number:</label>
         <input type="text" id="edit-mobilenumber" name="edit-mobilenumber"><br><br>
+        
+          
+        </select><br><br>
         <button class="save" type="submit">Save</button>
       </form>
     </div>
@@ -221,16 +234,13 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {
-
       $("#add-btn").on("click", function () {
         window.location.href = "/Index";
       });
-      $("#add-category").on("click", function () {
 
+      $("#add-category").on("click", function () {
         window.location.href = "/category";
       });
-
-
 
       // Delete action
       $(".delete-icon").click(function () {
@@ -239,14 +249,10 @@
         if (confirmation) {
           $.ajax({
             url: "/user/" + userId,
-            method: "DELETE",
-            success: function (response) {
-              alert("User deleted successfully");
+            type: "DELETE",
+            success: function () {
               location.reload();
             },
-            error: function (error) {
-              alert("Error deleting user: " + error);
-            }
           });
         }
       });
@@ -254,48 +260,44 @@
       // Edit action
       $(".edit-icon").click(function () {
         var userId = $(this).data("id");
-        var url = "/user/" + userId;
         $.ajax({
           url: "/user/" + userId,
-          method: "GET",
+          type: "GET",
           success: function (response) {
             $("#edit-user-id").val(response._id);
             $("#edit-description").val(response.description);
             $("#edit-mobilenumber").val(response.mobilenumber);
-            $("#edit-popup").fadeIn();
+            $("#edit-category").val(response.category);
+            $("#edit-popup").show();
           },
-          error: function (error) {
-            alert("Error fetching user details: " + error);
-          }
         });
       });
 
-      $(".edit-form").on("submit", function (e) {
+      // Close Edit Form Popup
+      $("#close-edit-popup").click(function () {
+        $("#edit-popup").hide();
+      });
+
+      // Save edited user
+      $(".edit-form").submit(function (e) {
         e.preventDefault();
         var userId = $("#edit-user-id").val();
-        var updatedUser = {
-          description: $("#edit-description").val(),
-          mobilenumber: $("#edit-mobilenumber").val()
-        };
-
+        var description = $("#edit-description").val();
+        var mobilenumber = $("#edit-mobilenumber").val();
+        var category = $("#edit-category").val();
 
         $.ajax({
           url: "/user/" + userId,
-          method: "PUT",
-          data: updatedUser,
-          success: function (response) {
-            alert("User information updated");
+          type: "PUT",
+          data: {
+            description: description,
+            mobilenumber: mobilenumber,
+            category: category,
+          },
+          success: function () {
             location.reload();
           },
-          error: function (error) {
-            alert("Error updating user information: " + error);
-          }
         });
-      });
-
-      // Close the edit form popup
-      $("#close-edit-popup").on("click", function () {
-        $("#edit-popup").fadeOut();
       });
     });
   </script>
