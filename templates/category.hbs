@@ -6,62 +6,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Category</title>
   <style>
-        body {
-            background-color: lightsteelblue;
-        }
-        .sub{
-            width: 100px;
-            background-color: rgb(232, 89, 89);
-        }
- .sub:hover {
-            background-color: rgb(115, 128, 145);
-        }ju
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-        }
-
-        input {
-            margin-bottom: 10px;
-            padding: 5px;
-            width: 200px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .required-star {
-            color: red;
-            margin-left: 5px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
-        }
-        .back{
-            color: black;
-        }
-    </style>
+    /* CSS styles for the page */
+    body {
+        background-color: lightsteelblue;
+    }
+    .sub{
+        width: 100px;
+        background-color: rgb(232, 89, 89);
+    }
+    .sub:hover {
+        background-color: rgb(115, 128, 145);
+    }
+    .input-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    input {
+        margin-bottom: 10px;
+        padding: 5px;
+        width: 200px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    .required-star {
+        color: red;
+        margin-left: 5px;
+    }
+    h1 {
+        text-align: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+    }
+    .back{
+        color: black;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- HTML body -->
   <h1>Add Category</h1>
 
-   <form action="/category" method="post" class="App" >
-        <div class="input-wrapper">
-            <input placeholder="Name" name="name" type="text" id="nameInput" required>
-            <span class="required-star">*</span>
-        </div>
-        <input class="sub" type="submit" value="Add">
-        <a href="/" class="back">Back</a>
-    </form>
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Form for adding a category -->
+  <form action="/category" method="post" class="App">
+    <div class="input-wrapper">
+      <input placeholder="Name" name="name" type="text" id="nameInput" required>
+      <span class="required-star">*</span>
+    </div>
+    <input class="sub" type="submit" value="Add">
+    <a href="/" class="back">Back</a>
+  </form>
+
+  <!-- JavaScript library for making HTTP requests -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </body>
 

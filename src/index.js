@@ -3,6 +3,7 @@ const path = require("path");
 const app = express();
 const UserCollection = require("./mongo");
 const CategoryCollection = require("./catmongo");
+const { registerPartial } = require("hbs");
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -66,10 +67,15 @@ app.post("/Index", async (req, res) => {
       res.send("<script>alert('User already exists'); window.location.href='/Index';</script>");
       return;
     } else {
+      if (!req.body.category) {
+        res.send("<script>alert('Invalid category'); window.location.href='/Index';</script>");
+        return;
+      }
+
       const category = await CategoryCollection.findById(req.body.category);
       
       if (!category) {
-        res.send("<script>alert('Invalid category'); window.location.href='/Index';</script>");
+        res.send("<script>alert('Add Category'); window.location.href='/Index';</script>");
         return;
       }
       
@@ -82,6 +88,7 @@ app.post("/Index", async (req, res) => {
     res.send(error);
   }
 });
+
 
 
 app.get("/user/:id", async (req, res) => {

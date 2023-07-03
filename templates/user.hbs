@@ -223,9 +223,8 @@
         <input type="text" id="edit-description" name="edit-description" required><br><br>
         <label for="edit-mobilenumber">Mobile Number:</label>
         <input type="text" id="edit-mobilenumber" name="edit-mobilenumber"><br><br>
-        
-          
-        </select><br><br>
+        <label for="edit-category">Category:</label>
+        <select id="edit-category" name="edit-category"></select><br><br>
         <button class="save" type="submit">Save</button>
       </form>
     </div>
@@ -234,10 +233,12 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {
+      // Add button click event
       $("#add-btn").on("click", function () {
         window.location.href = "/Index";
       });
 
+      // Add category button click event
       $("#add-category").on("click", function () {
         window.location.href = "/category";
       });
@@ -247,10 +248,12 @@
         var userId = $(this).data("id");
         const confirmation = confirm("Are you sure you want to delete this user?");
         if (confirmation) {
+          // Send AJAX request to delete the user
           $.ajax({
             url: "/user/" + userId,
             type: "DELETE",
             success: function () {
+              // Reload the page after successful deletion
               location.reload();
             },
           });
@@ -260,14 +263,17 @@
       // Edit action
       $(".edit-icon").click(function () {
         var userId = $(this).data("id");
+        // Send AJAX request to get the user details
         $.ajax({
           url: "/user/" + userId,
           type: "GET",
           success: function (response) {
+            // Fill the edit form with the user details
             $("#edit-user-id").val(response._id);
             $("#edit-description").val(response.description);
             $("#edit-mobilenumber").val(response.mobilenumber);
             $("#edit-category").val(response.category);
+            // Display the edit popup
             $("#edit-popup").show();
           },
         });
@@ -275,6 +281,7 @@
 
       // Close Edit Form Popup
       $("#close-edit-popup").click(function () {
+        // Hide the edit popup
         $("#edit-popup").hide();
       });
 
@@ -286,6 +293,7 @@
         var mobilenumber = $("#edit-mobilenumber").val();
         var category = $("#edit-category").val();
 
+        // Send AJAX request to update the user
         $.ajax({
           url: "/user/" + userId,
           type: "PUT",
@@ -295,6 +303,7 @@
             category: category,
           },
           success: function () {
+            // Reload the page after successful update
             location.reload();
           },
         });
